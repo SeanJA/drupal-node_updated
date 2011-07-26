@@ -1,0 +1,37 @@
+<?php
+
+function node_updated_check($node_id, $timestamp){
+  //nothing fancy here, check if a node has been updated
+  $q = 'SELECT changed FROM node WHERE nid = %d AND changed > %d';
+  $result = db_query($q, array($node_id, $timestamp));
+  $row = db_fetch_array($result);
+  if($row){
+    die('1');
+  }
+  die('0');
+}
+
+function node_updated_init() {
+  drupal_add_js(drupal_get_path('module', 'node_updated') . '/node_updated.js');
+  
+}
+
+function node_updated_nodeapi(&$node, $op, $a3 = NULL, $a4 = NULL) {
+  if($op == 'load'){
+    $check_time = variable_get('_node_updated_check_time', 60000);
+    $css = variable_get('_node_updated_css', 'z-index: 9000; text-align: center; width: 100%; color: #514721; position: fixed; top: 0; left: 0; display: none; background-color: #FFF6BF; border: solid 1px #FFD324');
+    drupal_add_js(array(
+      'node_updated' => array('node_id' => $node->nid,'changed' => $node->changed, 'interval'=>$check_time, 'css'=>$css),
+      ), 'setting');
+  }
+}
+
+function node_updated_menu(){
+  $items['node_updated'] = array(
+    'page callback' => 'node_updated_check',
+    'access arguments' => array('access content'), 
+    'page arguments' => array(1, 2),
+    'type' => MENU_CALLBACK,
+  );
+  return $items;
+}

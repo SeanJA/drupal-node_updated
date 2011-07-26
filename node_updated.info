@@ -1,0 +1,5 @@
+name = Node Updated
+description = Has the current node been updated since you last looked at it?
+core = "6.x"
+project = "node_updated"
+
