@@ -4,7 +4,11 @@ Lets users viewing a specific node whether or not they are looking at the latest
 
 Permissions
 ==
+* administer node_updated => can make changes to the node_updated settings
+* check node_updated => can check to see if nodes have been updated
 
-administer node_updated => can make changes to the node_updated settings
-
-check node_updated => can check to see if nodes have been updated
+Todo:
+==
+* get it on the drupal site
+* Check only for specific node types?
+* Permissions per node type?
